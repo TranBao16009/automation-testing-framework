@@ -1,17 +1,19 @@
 import { Locator, Page } from "@playwright/test";
 import { TimeOutConstants } from "../constants/TimeOutConstans";
 
-
 export class BasePage {
-  //thuộc tính
   protected page: Page;
 
-  //constructor
   constructor(page: Page) {
     this.page = page;
   }
+  async goto(
+  url: string,
+  timeOut: number = 30000,
+) {
+  await this.page.goto(url, { timeout: timeOut, waitUntil: "domcontentloaded" });
+}
 
-  //phương thức
   async inputText(
     locator: Locator,
     text: string,
@@ -19,8 +21,6 @@ export class BasePage {
   ) {
     await locator.fill(text, { timeout: timeOut });
   }
-
-  //ví dụ: input(locator, "test123")
 
   async click(
     locator: Locator,
