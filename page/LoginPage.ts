@@ -26,10 +26,17 @@ export class LoginPage extends CommonPage {
   async clickLoginButton() {
     await this.loginButton.click();
   }
+  async open() {
+        await this.page.goto("/");
+        
+    }
 
   async login(account: string, password: string) {
     await this.enterAccountInput(account);
     await this.enterPasswordInput(password);
     await this.clickLoginButton();
   }
+
+ 
+
 }

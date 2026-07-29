@@ -1,16 +1,13 @@
 //callback function: hàm được truyền vào trong hàm khác như 1 tham số
 // test("verify register function", async ({ page }) => {
 //   // thực logic các bước đăng ký tài khoản
-//   //bước 1: tới trang https://demo1.cybersoft.edu.vn
-//   await page.goto("https://demo1.cybersoft.edu.vn");
+//   //bước 1: tới trang https://demo2.cybersoft.edu.vn
+//   await page.goto("https://demo2.cybersoft.edu.vn");
 
 import { expect, test } from "../../fixtures/page-fixture";
 
 //   //bước 2: click vào "đăng ký"
 //   const registerLink = page.getByRole("link", { name: "Đăng Ký" });
-//   //cách 2: sử dụng xpath
-//   //   const registerLink = page.locator("//a[@href='/sign-up']");
-//   await registerLink.click();
 
 //   const account = crypto.randomUUID();
 //   const password = "testing15_playwright";
@@ -56,27 +53,57 @@ test("Verify register function with POM(Page Object Model)", async ({
   homePage,
   registerPage,
 }) => {
-  const account = crypto.randomUUID();
-  const password = "testing15_playwright";
-  const fullname = "Testing playwright";
+  //b1: tới trang https://demo2.cybersoft.edu.vn
+  await page.goto("https://demo2.cybersoft.edu.vn");
+
+  //b2: click vào "đăng nhập"
+
+  await page.getByRole("link", { name: "Đăng nhập" }).click();
+
+  //b3: clip vào "đăng ký"
+
+  await page.locator("#signUp").click();
+
+  const account = crypto.randomUUID().replace(/-/g, "").slice(0, 10);
+  const password = "1980534Az!";
+  const fullname = "khoatieuhai";
   const email = `${account}@gmail.com`;
 
-  await page.goto("/");
+  //b4: nhập tài khoản
+  const accountInput = page.getByRole("textbox", { name: "Tài khoản" });
+  await accountInput.fill(account);
+  //b5: nhập họ tên
 
-  await homePage.getTopBarComponent().navigateToRegisterPage();
+  await page.getByRole("textbox", { name: "Họ tên" }).fill(fullname);
 
-  await registerPage.enterAccountInput(account);
+  //b6: nhập mật khẩu
+  const passwordInput = page.getByRole("textbox", {
+    name: "Mật khẩu",
+    exact: true,
+  });
 
-  await registerPage.enterPasswordInput(password);
+  await passwordInput.fill(password);
+  //b7: nhập email
+  const emailInput = page.getByRole("textbox", { name: "Email" });
+  await emailInput.fill(email);
+  //b8: nhập số điện thoại
 
-  await registerPage.enterRePasswordInput(password);
+  const phoneInput = page.getByRole("textbox", { name: "Số điện thoại" });
+  await phoneInput.fill("0939123412");
 
-  await registerPage.enterFullnameInput(fullname);
+  //b9: click vào "đăng ký"
 
-  await registerPage.enterEmailInput(email);
+  await page
+    .locator("form")
+    .filter({
+      hasText: "ĐĂNG KÝGP01GP02GP03GP04GP05GP06GP07GP08GP09GP010Đăng ký",
+    })
+    .getByRole("button")
+    .click();
 
-  await registerPage.clickRegisterButton();
-
+  //b10: verify point
   const successLbl = page.getByRole("heading", { name: "Đăng ký thành công" });
   await expect(successLbl).toBeVisible();
+
+  expect(successLbl).toBeVisible();
 });
