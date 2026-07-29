@@ -54,7 +54,7 @@ test("Verify register function with POM(Page Object Model)", async ({
   registerPage,
 }) => {
   //b1: tới trang https://demo2.cybersoft.edu.vn
-  await page.goto("https://demo2.cybersoft.edu.vn");
+  await homePage.goto("/");
 
   //b2: click vào "đăng nhập"
 
@@ -64,46 +64,47 @@ test("Verify register function with POM(Page Object Model)", async ({
 
   await page.locator("#signUp").click();
 
+  const registerForm = page.locator("form").filter({
+    hasText: "ĐĂNG KÝGP01GP02GP03GP04GP05GP06GP07GP08GP09GP010Đăng ký",
+  });
+
   const account = crypto.randomUUID().replace(/-/g, "").slice(0, 10);
   const password = "1980534Az!";
   const fullname = "khoatieuhai";
   const email = `${account}@gmail.com`;
 
   //b4: nhập tài khoản
-  const accountInput = page.getByRole("textbox", { name: "Tài khoản" });
+  const accountInput = registerForm.getByRole("textbox", {
+    name: "Tài khoản",
+  });
   await accountInput.fill(account);
   //b5: nhập họ tên
 
-  await page.getByRole("textbox", { name: "Họ tên" }).fill(fullname);
+  await registerForm.getByRole("textbox", { name: "Họ tên" }).fill(fullname);
 
   //b6: nhập mật khẩu
-  const passwordInput = page.getByRole("textbox", {
+  const passwordInput = registerForm.getByRole("textbox", {
     name: "Mật khẩu",
     exact: true,
   });
 
   await passwordInput.fill(password);
   //b7: nhập email
-  const emailInput = page.getByRole("textbox", { name: "Email" });
+  const emailInput = registerForm.getByRole("textbox", { name: "Email" });
   await emailInput.fill(email);
   //b8: nhập số điện thoại
 
-  const phoneInput = page.getByRole("textbox", { name: "Số điện thoại" });
+  const phoneInput = registerForm.getByRole("textbox", {
+    name: "Số điện thoại",
+  });
   await phoneInput.fill("0939123412");
 
   //b9: click vào "đăng ký"
 
-  await page
-    .locator("form")
-    .filter({
-      hasText: "ĐĂNG KÝGP01GP02GP03GP04GP05GP06GP07GP08GP09GP010Đăng ký",
-    })
-    .getByRole("button")
-    .click();
+  await registerForm.getByRole("button").click();
 
   //b10: verify point
-  const successLbl = page.getByRole("heading", { name: "Đăng ký thành công" });
-  await expect(successLbl).toBeVisible();
-
-  expect(successLbl).toBeVisible();
+  await expect(
+    page.getByRole("dialog").filter({ hasText: "Đăng kí thành công" }),
+  ).toBeVisible();
 });

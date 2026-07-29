@@ -1,20 +1,21 @@
 import { expect, test } from "../../fixtures/page-fixture";
-import { HomePage } from "../../page/HomePage";
 import { LoginPage } from "../../page/LoginPage";
 
 test("TC_Login_01: Verify that user can login successfully with valid account", async ({
+  homePage,
   page,
 }) => {
   const account = "khoakhoakhoa";
   const password = "1980534Az!";
 
-  await page.goto("https://demo2.cybersoft.edu.vn");
-  await page.getByRole("link", { name: "Đăng nhập" }).click();
+  // The demo site can keep non-essential resources loading.  BasePage.goto
+  // waits for DOMContentLoaded, so the test can interact with the application
+  // without waiting for every asset to finish downloading.
+  await homePage.goto("/");
 
   const loginPage = new LoginPage(page);
-  const homePage = new HomePage(page);
 
-  homePage.getTopBarComponent().navigateToLoginPage();
+  await homePage.getTopBarComponent().navigateToLoginPage();
 
   await loginPage.enterAccountInput(account);
 
@@ -22,8 +23,5 @@ test("TC_Login_01: Verify that user can login successfully with valid account", 
 
   await loginPage.clickLoginButton();
 
-  const successLbl = page.getByRole("heading", {
-    name: "Đăng nhập thành công",
-  });
-  await expect(successLbl).toBeVisible();
+  await expect(page.locator('a[href="/thongtincanhan"]')).toBeVisible();
 });

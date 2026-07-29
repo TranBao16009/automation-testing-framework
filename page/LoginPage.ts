@@ -2,15 +2,23 @@ import { Locator, Page } from "@playwright/test";
 import { CommonPage } from "./CommonPage.ts";
 
 export class LoginPage extends CommonPage {
+  private loginForm: Locator;
   private accountInput: Locator;
   private passwordInput: Locator;
   private loginButton: Locator;
 
   constructor(page: Page) {
     super(page);
-    this.accountInput = page.getByRole("textbox", { name: "Tài khoản" });
-    this.passwordInput = page.getByRole("textbox", { name: "Mật khẩu" });
-    this.loginButton = page.getByRole("button", {
+    this.loginForm = page
+      .locator("form")
+      .filter({ hasText: "Đăng nhậphoặc sử dụng tài khoản" });
+    this.accountInput = this.loginForm.getByRole("textbox", {
+      name: "Tài khoản",
+    });
+    this.passwordInput = this.loginForm.getByRole("textbox", {
+      name: "Mật khẩu",
+    });
+    this.loginButton = this.loginForm.getByRole("button", {
       name: "Đăng nhập",
     });
   }
