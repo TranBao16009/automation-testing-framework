@@ -1,12 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
-
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+import { ENV } from "./config/env";
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -30,12 +23,9 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    // baseURL: 'http://localhost:3000',
-    baseURL: "https://demo2.cybersoft.edu.vn",
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    baseURL: ENV.BASE_URL,
     trace: "on-first-retry",
-    actionTimeout: 10000, //mặc định là 0 (không có timeout), nếu action nào chạy quá 10s sẽ bị fail
+    actionTimeout: 10000,//mặc định là 0 (không có timeout), nếu action nào chạy quá 10s sẽ bị fail
   },
 
   /* Configure projects for major browsers */

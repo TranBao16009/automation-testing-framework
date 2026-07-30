@@ -1,5 +1,5 @@
 import { Locator, Page } from "@playwright/test";
-import { CommonPage } from "./CommonPage.ts";
+import { CommonPage } from "./CommonPage";
 
 export class LoginPage extends CommonPage {
   private loginForm: Locator;

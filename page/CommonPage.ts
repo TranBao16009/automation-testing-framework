@@ -1,5 +1,5 @@
 import { TopBarComponent } from "./components/TopBarComponent";
-import { BasePage } from "./BasePage.ts";
+import { BasePage } from "./BasePage";
 import { Page } from "@playwright/test";
 
 export class CommonPage extends BasePage {

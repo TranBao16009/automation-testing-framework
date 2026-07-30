@@ -1,6 +1,6 @@
 import { Locator, Page } from "@playwright/test";
-import { BasePage } from "../BasePage.ts";
-import { TimeOutConstants } from "../../constants/TimeOutConstans.ts";
+import { BasePage } from "../BasePage";
+import { TimeOutConstants } from "../../constants/TimeOutConstans";
 
 export class TopBarComponent extends BasePage {
   private lnkRegister: Locator;

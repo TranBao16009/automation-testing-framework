@@ -7,6 +7,11 @@ export class BasePage {
   constructor(page: Page) {
     this.page = page;
   }
+
+  getPage() {
+    return this.page;
+  }
+
   async goto(
   url: string,
   timeOut: number = 30000,

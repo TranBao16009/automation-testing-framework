@@ -1,44 +1,10 @@
 import { faker } from "@faker-js/faker";
-import { IBookingData } from "../type/booking.type";
-// export const bookingData: IBookingData = {
-//   firstname: "Jim",
-//   lastname: "Brown",
-//   totalprice: 111,
-//   depositpaid: true,
-//   bookingdates: {
-//     checkin: new Date("2018-01-01"),
-//     checkout: new Date("2019-01-01"),
-//   },
-//   additionalneeds: "Breakfast",
-// };
-export const bookingData: IBookingData = {
-  firstname: faker.person.firstName(),
-  lastname: faker.person.lastName(),
-  totalprice: faker.number.int({
-    min: 100,
-    max: 1000,
-  }),
-  depositpaid: faker.datatype.boolean(),
-  bookingdates: {
-    checkin: faker.date.past(),
-    checkout: faker.date.future(),
-  },
-  additionalneeds: faker.helpers.arrayElement([
-    "Breakfast",
-    "Lunch",
-    "Dinner",
-    "Extra pillows",
-    "Late checkout",
-  ]),
-};
+import { IBookingData } from "../types/booking.type";
 
-export const updateBookingData: IBookingData = {
+const createBookingData = (): IBookingData => ({
   firstname: faker.person.firstName(),
   lastname: faker.person.lastName(),
-  totalprice: faker.number.int({
-    min: 100,
-    max: 1000,
-  }),
+  totalprice: faker.number.int({ min: 100, max: 1000 }),
   depositpaid: faker.datatype.boolean(),
   bookingdates: {
     checkin: faker.date.past(),
@@ -51,4 +17,7 @@ export const updateBookingData: IBookingData = {
     "Extra pillows",
     "Late checkout",
   ]),
-};
+});
+
+export const bookingData = createBookingData();
+export const updateBookingData = createBookingData();

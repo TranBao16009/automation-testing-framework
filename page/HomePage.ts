@@ -1,5 +1,5 @@
 import { Page, Locator, expect } from "@playwright/test";
-import { CommonPage } from "./CommonPage.ts";
+import { CommonPage } from "./CommonPage";
 
 export class HomePage extends CommonPage {
   readonly loginButton: Locator;

@@ -1,10 +1,10 @@
 import { Locator, Page } from "@playwright/test";
-import { CommonPage } from "./CommonPage.ts";
+import { CommonPage } from "./CommonPage";
 
 export class RegisterPage extends CommonPage {
+  private registerForm: Locator;
   private accountInput: Locator;
   private passwordInput: Locator;
-  //private rePasswordInput: Locator;
   private emailInput: Locator;
   private fullnameInput: Locator;
   private phoneInput: Locator;
@@ -12,26 +12,26 @@ export class RegisterPage extends CommonPage {
 
   constructor(page: Page) {
     super(page);
-    this.accountInput = page.getByRole("textbox", { name: "Tài Khoản" });
-    this.passwordInput = page.getByRole("textbox", {
-      name: "Mật Khẩu",
+    this.registerForm = page.locator("form").filter({
+      hasText: "ĐĂNG KÝGP01GP02GP03GP04GP05GP06GP07GP08GP09GP010Đăng ký",
+    });
+    this.accountInput = this.registerForm.getByRole("textbox", {
+      name: "Tài khoản",
+    });
+    this.passwordInput = this.registerForm.getByRole("textbox", {
+      name: "Mật khẩu",
       exact: true,
     });
-    //this.rePasswordInput = page.getByRole("textbox", {
-      //name: "Nhập lại mật khẩu",
-   // });
-    // this.emailInput = page.getByRole("textbox", { name: "Email" });
-    // this.fullnameInput = page.getByRole("textbox", { name: "Họ Tên" });
-    // this.phoneInput = page.getByRole("textbox", { name: "Số điện thoại" });
-    // this.registerButton = page.getByRole("button", { name: "Đăng ký" });
-      this.accountInput = page.locator("taiKhoan");
-      this.passwordInput = page.locator("matKhau");
-      this.emailInput = page.locator("email");
-      this.fullnameInput = page.locator("hoTen");
-      this.phoneInput = page.locator("soDT");
-      this.registerButton = page.locator("button[type='submit']");
-
-    
+    this.emailInput = this.registerForm.getByRole("textbox", { name: "Email" });
+    this.fullnameInput = this.registerForm.getByRole("textbox", {
+      name: "Họ tên",
+    });
+    this.phoneInput = this.registerForm.getByRole("textbox", {
+      name: "Số điện thoại",
+    });
+    this.registerButton = this.registerForm.getByRole("button", {
+      name: "Đăng ký",
+    });
   }
 
   async enterAccountInput(account: string) {
@@ -41,10 +41,6 @@ export class RegisterPage extends CommonPage {
   async enterPasswordInput(password: string) {
     await this.passwordInput.fill(password);
   }
-
-  // async enterRePasswordInput(rePassword: string) {
-  //   await this.rePasswordInput.fill(rePassword);
-  // }
 
   async enterEmailInput(email: string) {
     await this.emailInput.fill(email);
@@ -63,17 +59,15 @@ export class RegisterPage extends CommonPage {
   async register(
     account: string,
     password: string,
-    //rePassword: string,
     email: string,
     phone: string,
     fullname: string,
   ) {
     await this.enterAccountInput(account);
     await this.enterPasswordInput(password);
-    //await this.enterRePasswordInput(rePassword);
     await this.enterEmailInput(email);
     await this.enterFullnameInput(fullname);
-    
+    await this.enterPhoneInput(phone);
     await this.clickRegisterButton();
   }
 }

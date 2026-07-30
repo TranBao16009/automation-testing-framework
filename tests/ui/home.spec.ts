@@ -1,8 +1,9 @@
-import { test, expect } from "../../fixtures/page-fixture.ts";
+import { test, expect } from "../../fixtures/page-fixture";
+import { ENV } from "../../config/env";
 
 test.describe("HomePage", () => {
   test.beforeEach(async ({ homePage }) => {
-    await homePage.goto("https://demo2.cybersoft.edu.vn/");
+    await homePage.goto("/");
     await homePage.assertHomePageLoaded();
   });
 
@@ -23,14 +24,14 @@ test.describe("HomePage", () => {
   test("hiển thị footer thông tin liên hệ", async ({ homePage }) => {
     await homePage.assertFooterVisible();
   });
- 
-  test("click vào menu 'Khóa học' điều hướng đúng trang", async ({ homePage }) => {
-  await homePage.goToCourseListPage();
-  await expect(homePage.page).not.toHaveURL("https://demo2.cybersoft.edu.vn/");
-});
 
-test("click vào 1 khóa học cụ thể mở đúng trang chi tiết", async ({ homePage }) => {
-  await homePage.clickFirstCourse();
-  await expect(homePage.page).toHaveURL(/chitiet/i);
-});
+  test("click vào menu 'Khóa học' điều hướng đúng trang", async ({ homePage }) => {
+    await homePage.goToCourseListPage();
+    await expect(homePage.getPage()).not.toHaveURL(new URL("/", ENV.BASE_URL).href);
+  });
+
+  test("click vào 1 khóa học cụ thể mở đúng trang chi tiết", async ({ homePage }) => {
+    await homePage.clickFirstCourse();
+    await expect(homePage.getPage()).toHaveURL(/chitiet/i);
+  });
 });
