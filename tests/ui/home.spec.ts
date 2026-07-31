@@ -11,9 +11,9 @@ test.describe("HomePage", () => {
     await homePage.assertBannerVisible();
   });
 
-  test("mở modal đăng nhập khi click nút Đăng nhập", async ({ homePage }) => {
+  test("mở modal đăng nhập khi click nút Đăng nhập", async ({ homePage, loginPage }) => {
     await homePage.openLoginModal();
-    await expect(homePage.loginFormSubmitButton).toBeVisible();
+    await loginPage.assertLoginFormVisible();
   });
 
   test("mở menu danh mục hiển thị đầy đủ danh mục", async ({ homePage }) => {

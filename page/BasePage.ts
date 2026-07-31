@@ -14,7 +14,7 @@ export class BasePage {
 
   async goto(
   url: string,
-  timeOut: number = 30000,
+  timeOut: number = TimeOutConstants.TIME_OUT_NAVIGATE,
 ) {
   await this.page.goto(url, { timeout: timeOut, waitUntil: "domcontentloaded" });
 }

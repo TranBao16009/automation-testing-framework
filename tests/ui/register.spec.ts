@@ -1,13 +1,13 @@
 import { expect, test } from "../../fixtures/page-fixture";
 
 test("Verify register function with POM(Page Object Model)", async ({
-  page,
   homePage,
   registerPage,
 }) => {
   await homePage.goto("/");
 
-  await page.getByRole("link", { name: "Đăng nhập" }).click();
+  // Issue 3: dùng TopBarComponent thay vì raw locator trực tiếp trong test
+  await homePage.getTopBarComponent().navigateToLoginPage();
   await homePage.goToSignUp();
 
   const account = crypto.randomUUID().replace(/-/g, "").slice(0, 10);
@@ -24,6 +24,6 @@ test("Verify register function with POM(Page Object Model)", async ({
   );
 
   await expect(
-    page.getByRole("dialog").filter({ hasText: "Đăng kí thành công" }),
+    homePage.getPage().getByRole("dialog").filter({ hasText: "Đăng kí thành công" }),
   ).toBeVisible();
 });
