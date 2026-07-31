@@ -12,8 +12,9 @@ export class RegisterPage extends CommonPage {
 
   constructor(page: Page) {
     super(page);
+    // Dùng regex ngắn thay vì chuỗi dài bị nối (GP01..GP010 là nội dung dropdown render trong form)
     this.registerForm = page.locator("form").filter({
-      hasText: "ĐĂNG KÝGP01GP02GP03GP04GP05GP06GP07GP08GP09GP010Đăng ký",
+      hasText: /ĐĂNG KÝ/,
     });
     this.accountInput = this.registerForm.getByRole("textbox", {
       name: "Tài khoản",

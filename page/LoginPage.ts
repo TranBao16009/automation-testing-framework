@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 import { CommonPage } from "./CommonPage";
 
 export class LoginPage extends CommonPage {
@@ -9,9 +9,10 @@ export class LoginPage extends CommonPage {
 
   constructor(page: Page) {
     super(page);
+    // Dùng regex ngắn thay vì chuỗi dài bị nối để tránh flaky khi UI thay đổi
     this.loginForm = page
       .locator("form")
-      .filter({ hasText: "Đăng nhậphoặc sử dụng tài khoản" });
+      .filter({ hasText: /Đăng nhập/ });
     this.accountInput = this.loginForm.getByRole("textbox", {
       name: "Tài khoản",
     });
@@ -44,6 +45,11 @@ export class LoginPage extends CommonPage {
     await this.enterPasswordInput(password);
     await this.clickLoginButton();
   }
+
+  async assertLoginFormVisible() {
+    await expect(this.loginButton).toBeVisible();
+  }
+
 
  
 
